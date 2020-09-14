@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text,StyleSheet,TouchableOpacity } from 'react-native';
 import StorageHelper,{StoragePermissions,NEVER_ASK_AGAIN} from "./src/StorageHelper";
+import CertCanvas from "./src/CertCanvas";
 
 const App = () => {
   
@@ -30,9 +31,10 @@ const App = () => {
   return(
     <View style={styles.container}>
       <TouchableOpacity onPress={()=>{onClickedPermission()}}>
-        <View style={styles.btnView}>
+        {/* <View style={styles.btnView}>
           <Text>Android Permission</Text>
-        </View>
+        </View> */}
+        <CertCanvas />
       </TouchableOpacity>
     </View>
   )
