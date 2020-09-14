@@ -30,7 +30,7 @@ export const createPDF = async (path,pdf64,fileName) => {
         }
     
         await RNFS.writeFile(file,pdf64,"base64");		// 創建PDF這個檔案在相對應路徑
-        ToastAndroid.show("Download complete",ToastAndroid.LONG);
+        if(Platform.OS === "android") ToastAndroid.show("Download complete",ToastAndroid.LONG);
         console.log("createPDF success!");
     }catch(err){
         console.log("createPDF err",err);
