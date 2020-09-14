@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text,Image,StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import Canvas,{Image as CanvasImage} from "react-native-canvas";
 import PIC from "./png_base64.js/cert";
 
@@ -31,6 +31,7 @@ const CertCanvas = (props) => {
                             output = output.replace(REG_T,"");
                         }
                     }
+                    props.getImage(output);
                     setOutputPic(output);
                 }
             })
@@ -38,18 +39,11 @@ const CertCanvas = (props) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View>
             <Canvas ref={handleCanvas} style={{width: 0,height:0}}/>
-            <Image source={{uri: OutputPic}} style={{width: 200,height:100}}/>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    }
-})
 
 
 export default CertCanvas;

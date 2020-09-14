@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
-import { View, Text,StyleSheet,TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text,StyleSheet,TouchableOpacity,Image } from 'react-native';
 import StorageHelper,{StoragePermissions,NEVER_ASK_AGAIN} from "./src/StorageHelper";
 import CertCanvas from "./src/CertCanvas";
+import {getLocalPath,createPDF} from "./src/DownloadModule";
+import {HandlePDF} from "./src/HandlePDF";
 
 const App = () => {
+
+  const [ImgUrl, setImgUrl] = useState("");
+
+  const getImage = (img64) => {
+    if(img64){
+      setImgUrl(img64);
+    }
+  }
   
   const onClickedPermission = async () => {
     try{
@@ -19,6 +29,10 @@ const App = () => {
           let chkRes = await StorageHelper.check();
           if(chkRes === true){
             // Next Step
+            let path = await getLocalPath();
+            let pdf64 = await HandlePDF(ImgUrl);
+            await createPDF(path,pdf64,"certificate.pdf");
+
           }
           else throw new Error("使用者未授權");
       }
@@ -30,12 +44,15 @@ const App = () => {
 
   return(
     <View style={styles.container}>
+      <Image source={{uri: ImgUrl}} style={{width: 300,height:200}}/>
+      
       <TouchableOpacity onPress={()=>{onClickedPermission()}}>
-        {/* <View style={styles.btnView}>
-          <Text>Android Permission</Text>
-        </View> */}
-        <CertCanvas />
+        <View style={styles.btnView}>
+          <Text>Download</Text>
+        </View>
       </TouchableOpacity>
+      
+      <CertCanvas getImage={getImage}/>
     </View>
   )
 }
